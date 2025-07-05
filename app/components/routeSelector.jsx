@@ -21,7 +21,7 @@ export default function RouteSelector({
     setShowHourDropdown(false);
   };
 
-  // Tancar dropdown quan es fa clic fora
+  // Tancar dropdown quan es fa clic fora o es prem Escape
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showHourDropdown && !event.target.closest(`.${styles.hourSelector}`)) {
@@ -29,8 +29,19 @@ export default function RouteSelector({
       }
     };
 
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape' && showHourDropdown) {
+        setShowHourDropdown(false);
+      }
+    };
+
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
   }, [showHourDropdown]);
 
   return (
@@ -70,13 +81,20 @@ export default function RouteSelector({
         <button
           className={styles.hourButton}
           onClick={() => setShowHourDropdown(!showHourDropdown)}
-          title="Hora de sortida"
+          title="Seleccionar hora de sortida"
+          aria-label="Seleccionar hora de sortida"
+          aria-expanded={showHourDropdown}
+          aria-haspopup="listbox"
         >
           {hora.toString().padStart(2, '0')}:00
         </button>
         
         {showHourDropdown && (
-          <div className={styles.hourDropdown}>
+          <div 
+            className={styles.hourDropdown}
+            role="listbox"
+            aria-label="Opcions d'hora"
+          >
             <div className={styles.hourGrid}>
               {/* Primera columna: 0:00-11:00 */}
               <div className={styles.hourColumn}>
@@ -85,6 +103,8 @@ export default function RouteSelector({
                     key={i}
                     className={`${styles.hourOption} ${hora === i ? styles.selected : ''}`}
                     onClick={() => handleHourSelect(i)}
+                    role="option"
+                    aria-selected={hora === i}
                   >
                     {i.toString().padStart(2, '0')}:00
                   </button>
@@ -100,6 +120,8 @@ export default function RouteSelector({
                       key={hourValue}
                       className={`${styles.hourOption} ${hora === hourValue ? styles.selected : ''}`}
                       onClick={() => handleHourSelect(hourValue)}
+                      role="option"
+                      aria-selected={hora === hourValue}
                     >
                       {hourValue.toString().padStart(2, '0')}:00
                     </button>

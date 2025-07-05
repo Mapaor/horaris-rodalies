@@ -7,10 +7,9 @@
   position: relative;
   min-height: 120px;
   gap: 2rem;
-  max-width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-
-/* Removed global timeline line as it doesn't work well with multiple rows */
 
 .timelineItem {
   display: flex;
@@ -19,30 +18,30 @@
   position: relative;
   z-index: 2;
   background: white;
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   border: 2px solid #e9ecef;
   transition: all 0.3s ease;
-  min-width: 120px;
+  min-width: 140px;
   flex: 0 1 auto;
   margin-bottom: 1rem;
 }
 
 .timelineItem:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 123, 255, 0.15);
   border-color: #007bff;
 }
 
 .timelinePoint {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: linear-gradient(135deg, #007bff, #0056b3);
   border: 3px solid white;
-  box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
-  margin-bottom: 1rem;
+  box-shadow: 0 0 0 4px #007bff, 0 3px 10px rgba(0, 123, 255, 0.3);
+  margin-bottom: 1.2rem;
   position: relative;
 }
 
@@ -52,8 +51,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background: white;
   border-radius: 50%;
 }
@@ -63,51 +62,77 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .departureTime {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.9rem;
+  font-weight: 800;
   color: #007bff;
-  text-shadow: 0 1px 2px rgba(0, 123, 255, 0.1);
+  text-shadow: 0 1px 3px rgba(0, 123, 255, 0.1);
   letter-spacing: -0.5px;
 }
 
 .arrivalTime {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #6c757d;
-  font-weight: 500;
+  font-weight: 600;
   background: #f8f9fa;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  border: 1px solid #e9ecef;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  border: 2px solid #e9ecef;
 }
 
 .duration {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   color: #6c757d;
-  font-weight: 400;
+  font-weight: 500;
   background: #e9ecef;
-  padding: 0.2rem 0.6rem;
-  border-radius: 15px;
-  border: 1px solid #dee2e6;
-  margin-top: 0.25rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  border: 2px solid #dee2e6;
+  margin-top: 0.2rem;
   font-style: italic;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .timeline {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  .timelineItem {
+    min-width: 120px;
+    padding: 1.2rem 1.5rem;
+    flex: 1 1 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
+  }
+  
+  .departureTime {
+    font-size: 1.6rem;
+  }
+  
+  .arrivalTime {
+    font-size: 1rem;
+  }
+  
+  .duration {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline {
     padding: 1rem 0.5rem;
     gap: 1rem;
   }
   
   .timelineItem {
-    min-width: 90px;
-    padding: 0.75rem 1rem;
-    flex: 1 1 calc(50% - 0.5rem);
-    max-width: calc(50% - 0.5rem);
+    flex: 1 1 calc(100% - 0.5rem);
+    max-width: calc(100% - 0.5rem);
+    min-width: 200px;
+    padding: 1rem 1.25rem;
   }
   
   .departureTime {
@@ -115,7 +140,7 @@
   }
   
   .arrivalTime {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
   
   .duration {
@@ -123,59 +148,11 @@
   }
 }
 
-@media (max-width: 480px) {
-  .timelineItem {
-    flex: 1 1 calc(50% - 0.5rem);
-    max-width: calc(50% - 0.5rem);
-    min-width: 80px;
-  }
-  
-  .timeline {
-    gap: 0.75rem;
-  }
-}
-
-/* Mode fosc */
-@media (prefers-color-scheme: dark) {
-  .timelineItem {
-    background: #2d3748;
-    border-color: #4a5568;
-    color: white;
-  }
-  
-  .timelineItem:hover {
-    border-color: #63b3ed;
-    box-shadow: 0 8px 24px rgba(99, 179, 237, 0.15);
-  }
-  
-  .timelinePoint {
-    background: linear-gradient(135deg, #63b3ed, #3182ce);
-    box-shadow: 0 0 0 3px #63b3ed, 0 2px 8px rgba(99, 179, 237, 0.3);
-  }
-  
-  .departureTime {
-    color: #63b3ed;
-    text-shadow: 0 1px 2px rgba(99, 179, 237, 0.1);
-  }
-  
-  .arrivalTime {
-    color: #a0aec0;
-    background: #4a5568;
-    border-color: #718096;
-  }
-  
-  .duration {
-    color: #a0aec0;
-    background: #718096;
-    border-color: #a0aec0;
-  }
-}
-
-/* Animacions */
+/* Animacions millorades */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -184,7 +161,7 @@
 }
 
 .timelineItem {
-  animation: fadeInUp 0.5s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
 .timelineItem:nth-child(2) {
@@ -207,19 +184,19 @@
   animation-delay: 0.5s;
 }
 
-/* Efecte de pulsació per al punt */
+/* Efecte de pulsació suau per al punt */
 .timelinePoint {
-  animation: pulse 2s infinite;
+  animation: pulse 3s infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 4px #007bff, 0 3px 10px rgba(0, 123, 255, 0.3);
   }
   50% {
-    box-shadow: 0 0 0 3px #007bff, 0 0 0 6px rgba(0, 123, 255, 0.1), 0 2px 8px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 4px #007bff, 0 0 0 8px rgba(0, 123, 255, 0.15), 0 3px 10px rgba(0, 123, 255, 0.3);
   }
   100% {
-    box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 4px #007bff, 0 3px 10px rgba(0, 123, 255, 0.3);
   }
 }
