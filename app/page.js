@@ -7,8 +7,8 @@ import styles from './page.module.css';
 
 export default function Home() {
   const [horaris, setHoraris] = useState([]);
-  const [origen, setOrigen] = useState(71801); // Sants per defecte
-  const [desti, setDesti] = useState(79303); // Flaca per defecte
+  const [origen, setOrigen] = useState(79303); // Flaça per defecte
+  const [desti, setDesti] = useState(71801); // Sants per defecte
   
   // Obtenir l'hora actual per defecte
   const horaActual = new Date().getHours();

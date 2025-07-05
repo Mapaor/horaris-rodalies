@@ -166,6 +166,7 @@
     gap: 20px;
     padding: 20px;
     margin-bottom: 20px;
+    width: 80%;
   }
   
   .select {
@@ -176,7 +177,7 @@
   
   .swapButton {
     order: 2;
-    transform: rotate(90deg);
+    /* transform: rotate(90deg); */
   }
   
   .hourSelector {
@@ -201,6 +202,7 @@
   .routeSelector {
     padding: 15px;
     gap: 15px;
+    width: 85%;
   }
   
   .select {
