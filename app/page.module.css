@@ -34,6 +34,10 @@
   grid-row-start: 2;
 }
 
+.titolPrincipal {
+  text-align: center;
+}
+
 .main ol {
   font-family: var(--font-geist-mono);
   padding-left: 0;
@@ -161,8 +165,19 @@ a.secondary {
   }
 }
 
+/* Només mantenir l'estil del títol de ruta */
+.routeTitle {
+  color: #495057;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();
+  }
+  
+  .routeTitle {
+    color: #e2e8f0;
   }
 }

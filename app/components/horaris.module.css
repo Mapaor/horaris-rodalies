@@ -1,14 +1,225 @@
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
+.timeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  min-height: 120px;
+  gap: 2rem;
+  max-width: 100%;
 }
 
-.card {
-  border: 1px solid #ccc;
+/* Removed global timeline line as it doesn't work well with multiple rows */
+
+.timelineItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  background: white;
   border-radius: 12px;
-  padding: 1rem;
-  background-color: #f9f9f9;
-  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  flex: 0 1 auto;
+  margin-bottom: 1rem;
+}
+
+.timelineItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.15);
+  border-color: #007bff;
+}
+
+.timelinePoint {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.timelinePoint::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+.timeInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.departureTime {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #007bff;
+  text-shadow: 0 1px 2px rgba(0, 123, 255, 0.1);
+  letter-spacing: -0.5px;
+}
+
+.arrivalTime {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.duration {
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-weight: 400;
+  background: #e9ecef;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  border: 1px solid #dee2e6;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .timeline {
+    padding: 1rem 0.5rem;
+    gap: 1rem;
+  }
+  
+  .timelineItem {
+    min-width: 90px;
+    padding: 0.75rem 1rem;
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+  }
+  
+  .departureTime {
+    font-size: 1.5rem;
+  }
+  
+  .arrivalTime {
+    font-size: 0.9rem;
+  }
+  
+  .duration {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timelineItem {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+    min-width: 80px;
+  }
+  
+  .timeline {
+    gap: 0.75rem;
+  }
+}
+
+/* Mode fosc */
+@media (prefers-color-scheme: dark) {
+  .timelineItem {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: white;
+  }
+  
+  .timelineItem:hover {
+    border-color: #63b3ed;
+    box-shadow: 0 8px 24px rgba(99, 179, 237, 0.15);
+  }
+  
+  .timelinePoint {
+    background: linear-gradient(135deg, #63b3ed, #3182ce);
+    box-shadow: 0 0 0 3px #63b3ed, 0 2px 8px rgba(99, 179, 237, 0.3);
+  }
+  
+  .departureTime {
+    color: #63b3ed;
+    text-shadow: 0 1px 2px rgba(99, 179, 237, 0.1);
+  }
+  
+  .arrivalTime {
+    color: #a0aec0;
+    background: #4a5568;
+    border-color: #718096;
+  }
+  
+  .duration {
+    color: #a0aec0;
+    background: #718096;
+    border-color: #a0aec0;
+  }
+}
+
+/* Animacions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timelineItem {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.timelineItem:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.timelineItem:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.timelineItem:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.timelineItem:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.timelineItem:nth-child(n+6) {
+  animation-delay: 0.5s;
+}
+
+/* Efecte de pulsació per al punt */
+.timelinePoint {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 3px #007bff, 0 0 0 6px rgba(0, 123, 255, 0.1), 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 3px #007bff, 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
 }

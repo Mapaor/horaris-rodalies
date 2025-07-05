@@ -1,0 +1,145 @@
+/* Estils per al selector de ruta */
+.routeSelector {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.select {
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  min-width: 150px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.select:last-child {
+  min-width: 100px;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.swapButton {
+  padding: 12px 16px;
+  font-size: 18px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 50px;
+}
+
+.swapButton:hover {
+  background: #0056b3;
+}
+
+/* Selector d'hora personalitzat */
+.hourSelector {
+  position: relative;
+  display: inline-block;
+}
+
+.hourButton {
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  min-width: 100px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.hourButton:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.hourDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.hourGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 8px;
+}
+
+.hourColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hourOption {
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.hourOption:hover {
+  background-color: #f8f9fa;
+}
+
+.hourOption.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.hourOption.selected:hover {
+  background-color: #0056b3;
+}
+
+@media (prefers-color-scheme: dark) {
+  .routeSelector {
+    background: #2d3748;
+  }
+  
+  .select {
+    background: #4a5568;
+    color: white;
+    border-color: #718096;
+  }
+
+  .hourButton {
+    background: #4a5568;
+    color: white;
+    border-color: #718096;
+  }
+
+  .hourDropdown {
+    background: #4a5568;
+    border-color: #718096;
+  }
+
+  .hourOption:hover {
+    background-color: #2d3748;
+  }
+}

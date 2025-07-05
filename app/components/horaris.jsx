@@ -2,13 +2,15 @@ import styles from './horaris.module.css';
 
 export default function Horaris({ horaris }) {
   return (
-    <div className={styles.container}>
+    <div className={styles.timeline}>
       {horaris.map((item, index) => (
-        <div key={index} className={styles.card}>
-          <p><strong>Sortida:</strong> {item.departsAtOrigin}</p>
-          <p><strong>Arribada:</strong> {item.arrivesAtDestination}</p>
-          <p><strong>Durada:</strong> {item.duration}</p>
-          <p><strong>Accessibilitat:</strong> {item.globalAccessibility ? 'Sí' : 'No'}</p>
+        <div key={index} className={styles.timelineItem}>
+          <div className={styles.timelinePoint}></div>
+          <div className={styles.timeInfo}>
+            <div className={styles.departureTime}>{item.departsAtOrigin}</div>
+            <div className={styles.arrivalTime}>{item.arrivesAtDestination}</div>
+            <div className={styles.duration}>{item.duration}</div>
+          </div>
         </div>
       ))}
     </div>
