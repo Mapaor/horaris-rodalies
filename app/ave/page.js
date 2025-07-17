@@ -22,7 +22,7 @@
 // console.log(`🔗 URL Renfe: ${renfeUrl}`);
 
 const dataViatge = "18-07-2025"; // Data del viatge
-const estacionsIDs ={
+const estacionsIDs = {
     'Girona': 79300,
     'Sants': 71801
 }
@@ -31,9 +31,11 @@ const cookiesValides = {
     2: '6601a72d2f08df79a93d22844ed24064'
 }
 
+let gironaBcn = true;
+
 const urlAPI = 
 `https://resttrain.renfeviajes.renfe.com/RenfeAPI/queryNewAPIProceso?` +
-`query[departureStation]=${estacionsIDs['Girona']}&query[destinationStation]=${estacionsIDs['Sants']}` +
+`${gironaBcn ? `query[departureStation]=${estacionsIDs['Girona']}&query[destinationStation]=${estacionsIDs['Sants']}` : `query[departureStation]=${estacionsIDs['Sants']}&query[destinationStation]=${estacionsIDs['Girona']}`}` +
 `&query[dateFrom]=${dataViatge}` +
 `&query[numTicketsAdults]=1&query[numTicketsChildren]=0&query[numTicketsBabies]=0` +
 `&query[idaVuelta]=soloIda&query[idProducto]=2451&query[paqueteId]=9987&query[idPaquete]=9987` +

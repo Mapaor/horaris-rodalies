@@ -1,7 +1,8 @@
 
 export async function GET(request) {
-  // Paràmetres fixos (pots fer-los dinàmics si vols)
-  const dataViatge = "18-07-2025";
+  // Obtenim la data del query param, si existeix
+  const { searchParams } = new URL(request.url);
+  const dataViatge = searchParams.get('date') || "18-07-2025";
   const estacionsIDs = {
     Girona: 79300,
     Sants: 71801,

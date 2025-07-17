@@ -99,6 +99,10 @@
   border: 2px solid #a5f7d5;
 }
 
+.aveItem {
+  border: 2px solid #d9a5f7;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .timeline {
