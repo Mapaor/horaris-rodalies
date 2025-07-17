@@ -145,7 +145,7 @@ export default function Home() {
         </div>
       ) : (
         horaris.length > 0 && (
-          <Horaris horaris={horaris} />
+          <Horaris horaris={horaris} idOrigen={origen} idDesti={desti} />
         )
       )}
     </main>

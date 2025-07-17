@@ -31,7 +31,10 @@ export default function RouteSelector({
   const handleDaySelect = (selectedDay) => {
     onDiaChange(selectedDay);
     setShowDayDropdown(false);
-    
+    // Si selecciona "Demà", posar automàticament l'hora a les 5:00
+    if (selectedDay === 'Demà') {
+      onHoraChange(5);
+    }
     // Si selecciona "Data concreta", obrir el selector personalitzat
     if (selectedDay === 'Data concreta') {
       setShowDatePicker(true);
