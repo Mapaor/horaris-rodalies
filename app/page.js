@@ -110,20 +110,20 @@ export default function Home() {
                 return horaSortida >= hora;
               })
               .map((tren) => {
-                // Convertim duracionTotal de "0h39m" a minuts
-                let minuts = "-";
+                // Convertim duracionTotal de "0h39m" a "00:39"
+                let duracioStr = "-";
                 if (tren.duracionTotal) {
-                  const match = tren.duracionTotal.match(/(?:(\d+)h)?(\d+)m/);
+                  const match = tren.duracionTotal.match(/(\d+)h(\d+)m/);
                   if (match) {
-                    const h = parseInt(match[1] || "0", 10);
-                    const m = parseInt(match[2] || "0", 10);
-                    minuts = (h * 60 + m).toString();
+                    const hores = match[1].padStart(2, '0');
+                    const minuts = match[2].padStart(2, '0');
+                    duracioStr = `${hores}:${minuts}`;
                   }
                 }
                 return {
                   departsAtOrigin: formatHora(tren.horaSalida),
                   arrivesAtDestination: formatHora(tren.horaLlegada),
-                  duration: minuts,
+                  duration: duracioStr,
                   tipusTren: tren.tipoTren?.descTipoTren || "AVE",
                 };
               });

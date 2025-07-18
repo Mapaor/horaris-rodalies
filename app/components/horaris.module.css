@@ -95,12 +95,24 @@
   font-style: italic;
 }
 
+.timelineItem {
+  background: #e5f2fe;
+  border: 2px solid #a5c6f7;
+}
+
 .mitjaDistanciaItem {
-  border: 2px solid #a5f7d5;
+  background: #d1ffdb;
+  border: 2px solid #a5f1aa;
 }
 
 .aveItem {
+  background: #e7d0f4;
   border: 2px solid #d9a5f7;
+}
+
+.rg1Item {
+  background: #fbece5;
+  border: 2px solid #f7ccc1;
 }
 
 /* Responsive design */
