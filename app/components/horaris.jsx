@@ -65,7 +65,7 @@ const isRG1 = (idOrigen, idDesti, duration) => {
   return duracioMinuts > minRG1;
 }
 
-export default function Horaris({ horaris, idOrigen, idDesti }) {
+export default function Horaris({ horaris, idOrigen, idDesti, swapViewMaximized }) {
   return (
     <div className={styles.timeline}>
       {horaris.map((item, index) => (
@@ -77,8 +77,12 @@ export default function Horaris({ horaris, idOrigen, idDesti }) {
           <div className={styles.timelinePoint}></div>
           <div className={styles.timeInfo}>
             <div className={styles.departureTime}>{item.departsAtOrigin}</div>
-            <div className={styles.arrivalTime}>{item.arrivesAtDestination}</div>
-            <div className={styles.duration}>{item.duration}</div>
+            {swapViewMaximized && (
+              <>
+                <div className={styles.arrivalTime}>{item.arrivesAtDestination}</div>
+                <div className={styles.duration}>{item.duration}</div>
+              </>
+            )}
           </div>
         </div>
       ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
 import styles from './routeSelector.module.css';
 
 export default function RouteSelector({ 
@@ -15,11 +16,28 @@ export default function RouteSelector({
   onHoraChange, 
   onDiaChange,
   onDataSeleccionadaChange,
-  onInvertirTrajecte 
+  onInvertirTrajecte,
+  swapViewMaximized,
+  setSwapViewMaximized
 }) {
   const [showHourDropdown, setShowHourDropdown] = useState(false);
   const [showDayDropdown, setShowDayDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  // swapViewMaximized: per defecte true (maximized)
+  const [isPC, setIsPC] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const pc = window.innerWidth > 768;
+      setIsPC(pc);
+      if (pc) {
+        setSwapViewMaximized(true);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setSwapViewMaximized]);
 
   // Funció per gestionar la selecció d'hora
   const handleHourSelect = (selectedHour) => {
@@ -121,25 +139,37 @@ export default function RouteSelector({
 
   return (
     <div className={styles.routeSelector}>
-      <select 
-        value={origen} 
-        onChange={(e) => onOrigenChange(Number(e.target.value))}
-        className={styles.select}
-      >
-        {estacions.map(estacio => (
-          <option key={estacio.id} value={estacio.id}>
-            {estacio.nom}
-          </option>
-        ))}
-      </select>
-      
-      <button 
-        onClick={onInvertirTrajecte}
-        className={styles.swapButton}
-      >
-        ⇄
-      </button>
-      
+       <select 
+          value={origen} 
+          onChange={(e) => onOrigenChange(Number(e.target.value))}
+          className={styles.select}
+        >
+          {estacions.map(estacio => (
+            <option key={estacio.id} value={estacio.id}>
+              {estacio.nom}
+            </option>
+          ))}
+        </select>
+      <div className={styles.buttonsContainer}>
+        {/* Botó swapView només visible en mòbil */}
+        {!isPC && (
+          <button
+            className={styles.swapView}
+            onClick={() => setSwapViewMaximized((prev) => !prev)}
+            title="Canvia la vista"
+            aria-label="Canvia la vista"
+          >
+            {swapViewMaximized ? <FiMinimize2 /> : <FiMaximize2 />}
+          </button>
+        )}
+        <button 
+          onClick={onInvertirTrajecte}
+          className={styles.swapButton}
+        >
+          ⇄
+        </button>
+      </div>
+
       <select 
         value={desti} 
         onChange={(e) => onDestiChange(Number(e.target.value))}

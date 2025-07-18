@@ -9,6 +9,8 @@ export default function Home() {
   const [horaris, setHoraris] = useState([]);
   const [origen, setOrigen] = useState(79303); // Flaça per defecte
   const [desti, setDesti] = useState(71801); // Sants per defecte
+  // swapView estat global
+  const [swapViewMaximized, setSwapViewMaximized] = useState(false);
   
   // Obtenir l'hora actual per defecte
   const horaActual = new Date().getHours();
@@ -280,6 +282,8 @@ export default function Home() {
         onDiaChange={setDia}
         onDataSeleccionadaChange={setDataSeleccionada}
         onInvertirTrajecte={invertirTrajecte}
+        swapViewMaximized={swapViewMaximized}
+        setSwapViewMaximized={setSwapViewMaximized}
       />
 
       <h2 className={styles.routeTitle}>
@@ -304,7 +308,7 @@ export default function Home() {
         </div>
       ) : (
         horaris.length > 0 && (
-          <Horaris horaris={horaris} idOrigen={origen} idDesti={desti} />
+          <Horaris horaris={horaris} idOrigen={origen} idDesti={desti} swapViewMaximized={swapViewMaximized} />
         )
       )}
     </main>
