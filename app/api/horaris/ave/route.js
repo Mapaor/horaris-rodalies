@@ -10,6 +10,7 @@ export async function GET(request) {
   const cookiesValides = {
     1: "cbbf66f9fecc04df48807fee88c78aa1",
     2: "6601a72d2f08df79a93d22844ed24064",
+    3: "d2c521b778689e635a2a890a99416eaa"
   };
 
   const urlAPI =
