@@ -56,6 +56,14 @@ export default function Home() {
   // Carregar horaris quan canviïn origen, destí, hora o dia
   useEffect(() => {
     const obtenirHoraris = async () => {
+      // Si origen i destí són iguals, no fem crida API i mostrem missatge
+      if (origen === desti) {
+        setCarregant(false);
+        setErrorServidor(false);
+        setSenseTrens(false);
+        setHoraris([]);
+        return;
+      }
       try {
         setCarregant(true);
         setErrorServidor(false);
@@ -71,6 +79,7 @@ export default function Home() {
 
         if (isAve) {
           // Consulta rodalies i AVE en paral·lel
+          // Convertim la data seleccionada de "YYYY-MM-DD" a "DD-MM-YYYY" per l'API AVE
           let dateParts = dataSeleccionadaFinal.split('-');
           let dataAve = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
@@ -139,6 +148,10 @@ export default function Home() {
                   tipusTren: tren.tipoTren?.descTipoTren || "AVE",
                 };
               });
+            // Eliminar AVEs duplicats per hora de sortida
+            horarisAve = horarisAve.filter((tren, idx, arr) =>
+              arr.findIndex(t => t.departsAtOrigin === tren.departsAtOrigin) === idx
+            );
             console.log('AVE JSON:', dataAveJson);
             console.log('Horaris AVE:', horarisAve);
           }
@@ -272,8 +285,12 @@ export default function Home() {
       <h2 className={styles.routeTitle}>
         {estacions.find(e => e.id === origen)?.nom} → {estacions.find(e => e.id === desti)?.nom}
       </h2>
-      
-      {carregant ? (
+
+      {origen === desti ? (
+        <div className={styles.errorMessage}>
+          Tria dues estacions diferents
+        </div>
+      ) : carregant ? (
         <div className={styles.loadingMessage}>
           Carregant...
         </div>

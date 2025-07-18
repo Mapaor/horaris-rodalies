@@ -8,8 +8,8 @@ export async function POST(req) {
     const res = await fetch(url);
 
     const text = await res.text();
-    console.log('Rodalies API status:', res.status);
-    console.log('Rodalies API body:', text);
+    // console.log('Rodalies API status:', res.status);
+    // console.log('Rodalies API body:', text);
 
     // Intenta parsejar el cos com a JSON
     let dataJson;
