@@ -70,19 +70,23 @@ export default function Home() {
           (origen === santsId && desti === gironaId);
 
         if (isAve) {
-          // Consulta rodalies
-          const resRodalies = await fetch('/api/horaris', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              origen: origen,
-              desti: desti,
-              data: dataSeleccionadaFinal,
-              hora: hora
+          // Consulta rodalies i AVE en paral·lel
+          let dateParts = dataSeleccionadaFinal.split('-');
+          let dataAve = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+          const [resRodalies, resAve] = await Promise.all([
+            fetch('/api/horaris', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                origen: origen,
+                desti: desti,
+                data: dataSeleccionadaFinal,
+                hora: hora
+              }),
             }),
-          });
+            fetch(`/api/horaris/ave?date=${dataAve}`)
+          ]);
 
           // Només error si status >= 500 o 504
           console.log('Rod API status:', resRodalies.status);
@@ -92,6 +96,7 @@ export default function Home() {
             setHoraris([]);
             return;
           }
+
           const jsonRodalies = await resRodalies.json();
           console.log('Rodalies JSON:', jsonRodalies);
 
@@ -104,10 +109,6 @@ export default function Home() {
             jsonRodalies.args[0] === null;
           console.log('noQuedenTrensRodalies:', noQuedenTrensRodalies);
 
-          // Consulta AVE
-          let dateParts = dataSeleccionadaFinal.split('-');
-          let dataAve = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-          const resAve = await fetch(`/api/horaris/ave?date=${dataAve}`);
           let dataAveJson = null;
           let horarisAve = [];
           if (resAve.ok) {
