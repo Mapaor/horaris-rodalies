@@ -34,7 +34,7 @@ export default function Home() {
 
   // Definició de les estacions disponibles
   const estacions = [
-    { id: 79303, nom: 'Flaça' },
+    { id: 79303, nom: 'Flaçà' },
     { id: 79302, nom: 'Bordils' },
     { id: 79300, nom: 'Girona' },
     { id: 71801, nom: 'Sants' }
