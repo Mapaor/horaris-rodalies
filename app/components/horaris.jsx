@@ -8,14 +8,14 @@ const duracioMaxAve = {
 const duracionsMaxMD = {
   79300: { 
     71801: 85, // Girona -> Sants dura normalment 1:21h
-    79303: 12, // Sants -> Girona dura normalment 11min
+    79303: 13, // Sants -> Girona dura normalment 12min
   }, 
   71801: { 
     79300: 85, // Sants -> Flaçà dura normalment 1:21h
     79303: 96 // Sants -> Girona dura normalment 1:35h
   }, 
   79303: {
-    79300: 12, // Flaçà -> Girona dura normalment 11min
+    79300: 13, // Flaçà -> Girona dura normalment 12min
     71801: 96 // Flaçà -> Sants dura normalment 1:35h
   }
 }

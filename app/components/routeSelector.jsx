@@ -23,6 +23,8 @@ export default function RouteSelector({
   const [showHourDropdown, setShowHourDropdown] = useState(false);
   const [showDayDropdown, setShowDayDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showOrigenDropdown, setShowOrigenDropdown] = useState(false);
+  const [showDestiDropdown, setShowDestiDropdown] = useState(false);
   // swapViewMaximized: per defecte true (maximized)
   const [isPC, setIsPC] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
 
@@ -118,6 +120,12 @@ export default function RouteSelector({
       if (showDatePicker && !event.target.closest(`.${styles.datePickerContainer}`)) {
         setShowDatePicker(false);
       }
+      if (showOrigenDropdown && !event.target.closest(`.${styles.origenSelector}`)) {
+        setShowOrigenDropdown(false);
+      }
+      if (showDestiDropdown && !event.target.closest(`.${styles.destiSelector}`)) {
+        setShowDestiDropdown(false);
+      }
     };
 
     const handleEscapeKey = (event) => {
@@ -125,6 +133,8 @@ export default function RouteSelector({
         if (showHourDropdown) setShowHourDropdown(false);
         if (showDayDropdown) setShowDayDropdown(false);
         if (showDatePicker) setShowDatePicker(false);
+        if (showOrigenDropdown) setShowOrigenDropdown(false);
+        if (showDestiDropdown) setShowDestiDropdown(false);
       }
     };
 
@@ -135,21 +145,38 @@ export default function RouteSelector({
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [showHourDropdown, showDayDropdown, showDatePicker]);
+  }, [showHourDropdown, showDayDropdown, showDatePicker, showOrigenDropdown, showDestiDropdown]);
 
   return (
     <div className={styles.routeSelector}>
-       <select 
-          value={origen} 
-          onChange={(e) => onOrigenChange(Number(e.target.value))}
-          className={styles.select}
+      {/* Selector d'origen personalitzat */}
+      <div className={styles.origenSelector}>
+        <button
+          className={styles.origenButton}
+          onClick={() => setShowOrigenDropdown(!showOrigenDropdown)}
+          title="Seleccionar estació d'origen"
+          aria-label="Seleccionar estació d'origen"
+          aria-expanded={showOrigenDropdown}
+          aria-haspopup="listbox"
         >
-          {estacions.map(estacio => (
-            <option key={estacio.id} value={estacio.id}>
-              {estacio.nom}
-            </option>
-          ))}
-        </select>
+          {estacions.find(e => e.id === origen)?.nom || 'Origen'}
+        </button>
+        {showOrigenDropdown && (
+          <div className={styles.origenDropdown} role="listbox" aria-label="Opcions d'origen">
+            {estacions.map(estacio => (
+              <button
+                key={estacio.id}
+                className={`${styles.origenOption} ${origen === estacio.id ? styles.selected : ''}`}
+                onClick={() => { onOrigenChange(estacio.id); setShowOrigenDropdown(false); }}
+                role="option"
+                aria-selected={origen === estacio.id}
+              >
+                {estacio.nom}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
       <div className={styles.buttonsContainer}>
         {/* Botó swapView només visible en mòbil */}
         {!isPC && (
@@ -170,17 +197,34 @@ export default function RouteSelector({
         </button>
       </div>
 
-      <select 
-        value={desti} 
-        onChange={(e) => onDestiChange(Number(e.target.value))}
-        className={styles.select}
-      >
-        {estacions.map(estacio => (
-          <option key={estacio.id} value={estacio.id}>
-            {estacio.nom}
-          </option>
-        ))}
-      </select>
+      {/* Selector de destí personalitzat */}
+      <div className={styles.destiSelector}>
+        <button
+          className={styles.destiButton}
+          onClick={() => setShowDestiDropdown(!showDestiDropdown)}
+          title="Seleccionar estació de destí"
+          aria-label="Seleccionar estació de destí"
+          aria-expanded={showDestiDropdown}
+          aria-haspopup="listbox"
+        >
+          {estacions.find(e => e.id === desti)?.nom || 'Destí'}
+        </button>
+        {showDestiDropdown && (
+          <div className={styles.destiDropdown} role="listbox" aria-label="Opcions de destí">
+            {estacions.map(estacio => (
+              <button
+                key={estacio.id}
+                className={`${styles.destiOption} ${desti === estacio.id ? styles.selected : ''}`}
+                onClick={() => { onDestiChange(estacio.id); setShowDestiDropdown(false); }}
+                role="option"
+                aria-selected={desti === estacio.id}
+              >
+                {estacio.nom}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className={styles.hourSelector}>
         <button
