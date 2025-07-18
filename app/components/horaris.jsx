@@ -26,7 +26,6 @@ const isAve = (idOrigen, idDesti, duration) => {
   const [hores, minuts] = duration.split(':');
   const duracioMinuts = parseInt(hores, 10) * 60 + parseInt(minuts, 10);
   const duracioAVE = duracioMaxAve[idOrigen]?.[idDesti];
-  // console.log(`Duració tren: ${duracioMinuts} <(?) Duració AVE: ${duracioAVE}`);
   return duracioMinuts < duracioAVE;
 }
 
@@ -36,7 +35,6 @@ const isMitjaDistancia = (idOrigen, idDesti, duration) => {
   const duracioMinuts = parseInt(hores) * 60 + parseInt(minuts); // Convertim a minuts
   const duracioMD = duracionsMaxMD[idOrigen]?.[idDesti];
   const duracioAVE = duracioMaxAve[idOrigen]?.[idDesti];
-  console.log(`Duració tren: ${duracioMinuts} <(?) Duració MD: ${duracioMD}`);
   return duracioMinuts < duracioMD && (duracioMinuts > duracioAVE || !duracioAVE);
 }
 

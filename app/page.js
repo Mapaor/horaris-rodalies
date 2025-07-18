@@ -26,6 +26,9 @@ export default function Home() {
   // Estat per gestionar la càrrega
   const [carregant, setCarregant] = useState(false);
 
+  // Estat per indicar si no queden trens
+  const [senseTrens, setSenseTrens] = useState(false);
+
 
   // Definició de les estacions disponibles
   const estacions = [
@@ -56,6 +59,7 @@ export default function Home() {
       try {
         setCarregant(true);
         setErrorServidor(false);
+        setSenseTrens(false); // Reset cada consulta
         const dataSeleccionadaFinal = calcularData(dia, dataSeleccionada);
 
         // Si trajecte és Girona <-> Sants, mostrar AVE
@@ -79,28 +83,35 @@ export default function Home() {
               hora: hora
             }),
           });
+
+          // Només error si status >= 500 o 504
+          console.log('Rod API status:', resRodalies.status);
           if (resRodalies.status === 504  || resRodalies.status >= 500) {
+            console.log('Rodalies: error servidor');
             setErrorServidor(true);
             setHoraris([]);
             return;
           }
           const jsonRodalies = await resRodalies.json();
-          const itemsRodalies = jsonRodalies.result?.items || [];
-          const horarisRodalies = itemsRodalies.map(item => ({
-            ...item,
-            departsAtOrigin: item.departsAtOrigin?.substring(0, 5) || item.departsAtOrigin,
-            arrivesAtDestination: item.arrivesAtDestination?.substring(0, 5) || item.arrivesAtDestination,
-            duration: item.duration?.substring(0, 5) || item.duration,
-            tipusTren: item.tipusTren || "Rodalies",
-          }));
+          console.log('Rodalies JSON:', jsonRodalies);
+
+          // Detectar cas "no queden trens" de rodalies
+          const noQuedenTrensRodalies =
+            jsonRodalies &&
+            jsonRodalies.code === "error.renfe.unavailable_data" &&
+            Array.isArray(jsonRodalies.args) &&
+            jsonRodalies.args.length === 1 &&
+            jsonRodalies.args[0] === null;
+          console.log('noQuedenTrensRodalies:', noQuedenTrensRodalies);
 
           // Consulta AVE
           let dateParts = dataSeleccionadaFinal.split('-');
           let dataAve = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
           const resAve = await fetch(`/api/horaris/ave?date=${dataAve}`);
+          let dataAveJson = null;
           let horarisAve = [];
           if (resAve.ok) {
-            const dataAveJson = await resAve.json();
+            dataAveJson = await resAve.json();
             const trens = dataAveJson.infoTrenIda || [];
             const formatHora = (h) => h && h.length === 4 ? `${h.slice(0,2)}:${h.slice(2)}` : h || "-";
             horarisAve = trens
@@ -127,7 +138,38 @@ export default function Home() {
                   tipusTren: tren.tipoTren?.descTipoTren || "AVE",
                 };
               });
+            console.log('AVE JSON:', dataAveJson);
+            console.log('Horaris AVE:', horarisAve);
           }
+
+          // Si no queden trens a rodalies, mostrar missatge específic
+          if (noQuedenTrensRodalies) {
+            console.log('Mostrant missatge: No queden trens a partir d\'aquesta hora');
+            setSenseTrens(true);
+            setHoraris([]);
+            return;
+          }
+
+          // Si no hi ha resultats ni a rodalies ni a AVE però no és el cas anterior, mostrar error genèric
+          const noHoraris =
+            (!jsonRodalies.result && !noQuedenTrensRodalies) &&
+            (!dataAveJson?.infoTrenIda);
+          console.log('noHoraris:', noHoraris);
+          if (noHoraris) {
+            console.log('Mostrant missatge: Servei temporalment no disponible');
+            setErrorServidor(true);
+            setHoraris([]);
+            return;
+          }
+
+          const itemsRodalies = jsonRodalies.result?.items || [];
+          const horarisRodalies = itemsRodalies.map(item => ({
+            ...item,
+            departsAtOrigin: item.departsAtOrigin?.substring(0, 5) || item.departsAtOrigin,
+            arrivesAtDestination: item.arrivesAtDestination?.substring(0, 5) || item.arrivesAtDestination,
+            duration: item.duration?.substring(0, 5) || item.duration,
+            tipusTren: item.tipusTren || "Rodalies",
+          }));
 
           // Unim i ordenem per hora de sortida
           const totsHoraris = [...horarisRodalies, ...horarisAve].sort((a, b) => {
@@ -149,12 +191,36 @@ export default function Home() {
               hora: hora
             }),
           });
+
+          // Només error si status >= 500 o 504
           if (res.status === 504  || res.status >= 500) {
             setErrorServidor(true);
             setHoraris([]);
             return;
           }
           const json = await res.json();
+
+          // Detectar cas "no queden trens" de rodalies
+          const noQuedenTrensRodalies =
+            json &&
+            json.code === "error.renfe.unavailable_data" &&
+            Array.isArray(json.args) &&
+            json.args.length === 1 &&
+            json.args[0] === null;
+
+          if (noQuedenTrensRodalies) {
+            setSenseTrens(true);
+            setHoraris([]);
+            return;
+          }
+
+          // Si no hi ha result però no és el cas anterior, mostrar error genèric
+          if (!json.result && !noQuedenTrensRodalies) {
+            setErrorServidor(true);
+            setHoraris([]);
+            return;
+          }
+
           const items = json.result?.items || [];
           const horarisFormatejats = items.map(item => ({
             ...item,
@@ -213,6 +279,10 @@ export default function Home() {
       ) : errorServidor ? (
         <div className={styles.errorMessage}>
           Servei temporalment no disponible
+        </div>
+      ) : senseTrens ? (
+        <div className={styles.errorMessage}>
+          No queden trens a partir d&apos;aquesta hora
         </div>
       ) : (
         horaris.length > 0 && (
