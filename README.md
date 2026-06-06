@@ -3,4 +3,4 @@ Rodalies, Generalitat, Catalunya, Renfe, Adif, Bordils, Flaçà, Girona, Barcelo
 ## Link web
 La pots veure a [horaris-rodalies.vercel.app](https://horaris-rodalies.vercel.app)
 
-I durant 1 any a [rodalies.lol](https://rodalies.lol)
+I també a [rodalies.top](https://rodalies.top)
